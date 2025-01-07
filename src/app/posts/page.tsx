@@ -1,49 +1,22 @@
-import Link from 'next/link';
+import { PostsList } from './_views/posts-list';
+import { TagsList } from './_views/tags-list';
 import { PostsApi } from './Posts.api';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { PostTagButton } from './components/post-tag-button';
+import { TagsApi } from './Tags.api';
 
 export default async function Posts() {
-  const posts = await PostsApi.getPosts({ params: { tag: 'nextjs' } });
+  const posts = await PostsApi.getPosts();
+  const tags = await TagsApi.getTags();
 
   return (
-    <main className='p-3'>
-      <section className='flex flex-col gap-2'>
-        {posts.map((post) => (
-          <Link
-            key={post.id}
-            href={`/posts/${post.path}`}
-          >
-            <Card>
-              <CardHeader>
-                <div
-                  className='flex items-center gap-2
-                '
-                >
-                  <Avatar>
-                    <AvatarImage
-                      src={post.user.profile_image}
-                      alt={post.user.name}
-                    />
-                    <AvatarFallback>{post.user.name.at(0)}</AvatarFallback>
-                  </Avatar>
-                  <p>{post.user.name}</p>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <CardTitle>{post.title}</CardTitle>
-                {post.tag_list.map((tag) => (
-                  <PostTagButton
-                    key={tag}
-                    tag={tag}
-                  />
-                ))}
-              </CardContent>
-            </Card>
-          </Link>
-        ))}
-      </section>
-    </main>
+    <div className='grid grid-cols-6'>
+      <aside className='col-span-1'>
+        <TagsList tags={tags} />
+      </aside>
+      <main className='p-3 col-span-5'>
+        <section className='flex flex-col gap-2'>
+          <PostsList posts={posts} />
+        </section>
+      </main>
+    </div>
   );
 }

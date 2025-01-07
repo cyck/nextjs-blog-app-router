@@ -1,5 +1,5 @@
 import Markdown from 'react-markdown';
-import { PostsApi } from '../Posts.api';
+import { PostsApi } from '../../Posts.api';
 
 interface Params {
   path: string[];

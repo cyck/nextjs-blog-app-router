@@ -1,18 +1,18 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
-import { MouseEventHandler } from 'react';
+import { MouseEventHandler, PropsWithChildren } from 'react';
 import { Post } from '../Posts.types';
 
 interface Props {
   tag: Post['tag_list'][0];
 }
 
-export const PostTagButton = ({ tag }: Props) => {
+export function PostTagButton({ tag }: PropsWithChildren<Props>) {
   const router = useRouter();
   const handleClick: MouseEventHandler = (event) => {
     event.preventDefault();
-    router.push(`/posts/tag/${tag}`);
+    router.push(`/posts/tags/${tag}`);
   };
 
   return (
@@ -24,4 +24,4 @@ export const PostTagButton = ({ tag }: Props) => {
       #{tag}
     </Button>
   );
-};
+}
